@@ -1,6 +1,7 @@
 '''
-Page 34
-Algorithm 2.4 insert elem into list
+Page 24
+Algorithm 2.4
+Insert elem into list
 
 Insert element into list at index without built-in insert() function
 if index >= len(l) then insert the elem at the end of the list
@@ -16,7 +17,6 @@ if index < 0 then insert the elem at the start of the list
 >>> l.insert_elem(3, 4)
 >>> l
 [8, 1, 9, 2, 3, 3]
-
 '''
 
 

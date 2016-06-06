@@ -1,6 +1,7 @@
 '''
-Page 34
-Algorithm 2.5 remove elem in list
+Page 24
+Algorithm 2.5
+Remove elem in list
 
 Totally same as 2.4 if 'insert' replaced with 'remove'
 
@@ -14,8 +15,6 @@ Totally same as 2.4 if 'insert' replaced with 'remove'
 >>> l.remove_elem(1)
 >>> l
 [2, 4]
-
-
 '''
 
 

@@ -1,6 +1,7 @@
 '''
-Page 31
-Algorithm 2.2 merge list
+Page 21
+Algorithm 2.2
+Merge list
 
 Merge two sorted lists into one. There can be duplicates.
 
