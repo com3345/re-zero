@@ -383,7 +383,7 @@ try catch语句在python中是以以下形式呈现, `[]`为可选的。
 
 1. [Python标准库](https://docs.python.org/2/library/)里的**module**(比如`math`, `os`)
 2. `sys.path`里包含所有路径里的**module**
-    1. `sys.path[0]`在交互式（在command line里面输入python或者ipython等进入的模式，没有当前文件）模式下为空字符串`""`；如果是通过`python xxx.py`运行的，那么`sys.path[0]`置为`xxx.py`
+    1. `sys.path[0]`在交互式（在command line里面输入python或者ipython等进入的模式，没有当前文件）模式下为空字符串`""`；如果是通过`python xxx.py`运行的，那么`sys.path[0]`置为`xxx.py`所在目录
     2. `sys.path`里还包含`PYTHONPATH`环境变量
     3. 一些默认的位置
 
@@ -431,4 +431,13 @@ try catch语句在python中是以以下形式呈现, `[]`为可选的。
     import packA.subA.sa1
 
     # 显式相对引入，视角是从当前module来看的，即a1.py
-    
+    import other
+    from . import a2
+    from .subA import sa1
+
+    # 隐式相对引入，就是没有.视角是从当前module来看的
+    import other
+    import a2
+    import subA.sa1
+
+注意的是，相对引用的顶级目录（top-level）是由入口脚本，在这里就是`start.py`决定的，
