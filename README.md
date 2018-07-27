@@ -435,9 +435,37 @@ try catch语句在python中是以以下形式呈现, `[]`为可选的。
     from . import a2
     from .subA import sa1
 
-    # 隐式相对引入，就是没有.视角是从当前module来看的
+    # 隐式相对引入，就是没有.视角是从当前module来看的, 即a1.py。 【该方式Python3将不可使用】
     import other
     import a2
     import subA.sa1
 
-注意的是，相对引用的顶级目录（top-level）是由入口脚本，在这里就是`start.py`决定的，
+注意的是，相对引用的顶级package/（top-level package，相对引用最高可以到达的但不包含的目录）是由入口脚本，在这里就是`start.py`决定的，也就是说`a1.py`中的相对引用最高可以到达的是`start.py`所在位置，而非`test/`，因此`a1.py`对`start.py`周围文件的信息是感知不到的，或者说`test/`这个package底下有其他什么文件是不知道的。
+
+因此当你试图使用`from .. import other`将会失败提示`ValueError: attempted relative import beyond top-level package`。告诉你试图从`start.py`这个**top-level**的上层`test/`去引用一些东西，但`a1.py`不认识`test/`导致失败。
+
+所以相似的例子：**任何直接运行**的脚本（入口脚本）都无法引用父文件夹中的文件。 错误原因与上面一样，被直接运行的脚本**决定**了最高路径，从而**决定**了可以引用的包的路径。 如果试图从`sa1.py`中`from .. import a1`同样会报`ValueError: attempted relative import beyond top-level package`
+
+##### 1.5 总结
+
+结合上面所有内容，总结如下：
+
+1.  直接运行的脚本要有`if __name__ == "__main__":`
+2.  尽量使用绝对路径。如果一定要使用相对引用，使用显式而非隐式
+3.  尽量不要从父文件夹引用文件，如果要用，使用绝对路径
+4.  不要使用重名的module或package
+
+#### 2 中文编码问题
+
+##### 2.1 编码基础
+
+首先电脑天然不储存字符的，只储存`1`和`0`。再来看以下几个概念
+
++ 字符（character）：`I`,`爱`,`あ`
++ 字节码（code points）：一个整数值，用于表示某一个字符，早期通常以四位16进制或者说16bits（2^4^4 = 2 ^16）出现。比如0061是代表`a`
++ Unicode编码或者说Unicode标准：用一张表记录了几乎所有**字符**和**字节码**之间映射关系的标准
++ Unicode字符串（string）：一系列的**字符**， 因为**字符**用**字节码**表示，所以本质是一系列的**字节码**，更本质的是一系列的**16进制整数**，更本质我一系列**2进制**数，但存在内存中是以**bytes（8位2进制）**存在的。
++ 编码：将Unicode字符串转化一系列bytes的过程
++ 解码：相反过程
+
+"abc" ---> 
